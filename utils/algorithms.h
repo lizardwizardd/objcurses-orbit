@@ -11,7 +11,7 @@
 #include "mathematics.h"
 
 // linear interpolation
-float lerp(float a, float b, float t);
+float oc_lerp(float a, float b, float t);
 
 // limiting value to range between minimum and maximum value
 template<typename T>

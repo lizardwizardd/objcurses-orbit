@@ -30,7 +30,7 @@ float Projection::limit_y1(const float x) const
             return p1.y;
 
         const float t = (x - p1.x) / denominator;
-        return lerp(p1.y, p2.y, t);
+        return oc_lerp(p1.y, p2.y, t);
     }
     else
     {
@@ -40,7 +40,7 @@ float Projection::limit_y1(const float x) const
             return p2.y;
 
         const float t = (x - p2.x) / denominator;
-        return lerp(p2.y, p3.y, t);
+        return oc_lerp(p2.y, p3.y, t);
     }
 }
 
@@ -57,7 +57,7 @@ float Projection::limit_y2(const float x) const
         return p1.y;
 
     const float t = (x - p1.x) / denominator;
-    return lerp(p1.y, p3.y, t);
+    return oc_lerp(p1.y, p3.y, t);
 }
 
 Vec3 Projection::normal() const

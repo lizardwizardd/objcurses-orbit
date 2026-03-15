@@ -55,7 +55,7 @@ static bool is_ear(const size_t i, const std::vector<Vec3> &points, const std::v
 
 // main functions
 
-float lerp(const float a, const float b, const float t)
+float oc_lerp(const float a, const float b, const float t)
 {
     return a + (b - a) * t;
 }
