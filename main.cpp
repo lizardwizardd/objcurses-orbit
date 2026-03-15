@@ -294,8 +294,8 @@ void render_hud(const Camera &cam, const float fps)
 
     mvprintw(0, 0, "framerate %6d fps", static_cast<int>(std::round(fps)));
     mvprintw(1, 0, "zoom      %6.1f x", cam.zoom);
-    mvprintw(2, 0, "azimuth   %6.1f deg", clamp0(rad2deg(cam.azimuth)));
-    mvprintw(3, 0, "altitude  %6.1f deg", clamp0(rad2deg(cam.altitude)));
+    mvprintw(2, 0, "pan x     %6.1f deg", cam.pan_x);
+    mvprintw(3, 0, "pan y     %6.1f deg", cam.pan_y);
 
     if (g_hud_pair)
         attroff(COLOR_PAIR(g_hud_pair));
