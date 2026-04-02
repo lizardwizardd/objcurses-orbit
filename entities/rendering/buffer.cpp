@@ -5,6 +5,8 @@
 #include "buffer.h"
 
 #include <array>
+#include <algorithm>
+#include <cmath>
 
 // Projection methods
 
@@ -128,7 +130,7 @@ float Buffer::depth(const Projection &projection, const Vec3 &normal, const int 
     return z;
 }
 
-void Buffer::draw_projection(const Projection &projection, const char c, int material)
+void Buffer::draw_projection(const Projection &projection, const char c, const int material)
 {
     const Projection triangle = projection.sort_x();
 

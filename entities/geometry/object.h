@@ -5,6 +5,7 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <vector>
@@ -45,6 +46,9 @@ public:
     std::vector<Vec3> vertices;
     std::vector<Face> faces;
     std::vector<Material> materials;
+    /** If size equals faces.size(), triangles marked 1 may use the "moved"
+     * material when the viewer enables moved highlight (MeshGit diff/merge). */
+    std::vector<uint8_t> moved_triangle;
 
     // load obj file with optional material mtl support
     bool load(const std::string &obj_filename, bool color_support = false);

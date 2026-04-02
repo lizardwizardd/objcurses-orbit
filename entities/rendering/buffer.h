@@ -58,5 +58,4 @@ private:
     [[nodiscard]] int index_x(float real_x) const;
     [[nodiscard]] int index_y(float real_y) const;
     [[nodiscard]] float depth(const Projection &projection, const Vec3 &normal, int pixel_x, int pixel_y) const;
-
 };

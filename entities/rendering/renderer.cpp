@@ -4,6 +4,9 @@
 
 #include "renderer.h"
 
+#include <limits>
+#include <vector>
+
 char Renderer::luminance_char(const Vec3 &normal, const Vec3 &light, const std::string &scale)
 {
     const float sim = (Vec3::cosine_similarity(normal, light) + 1.0f) * 0.5f;
@@ -11,7 +14,9 @@ char Renderer::luminance_char(const Vec3 &normal, const Vec3 &light, const std::
     return scale[idx];
 }
 
-void Renderer::render(Buffer &buf, const Object &obj, const Camera &cam, const Light  &light, bool static_light, bool color_support)
+void Renderer::render(Buffer &buf, const Object &obj, const Camera &cam,
+                      const Light &light, bool static_light, bool color_support,
+                      bool highlight_moved)
 {
     const float lx = buf.logical_x;
     const float ly = buf.logical_y;
@@ -45,9 +50,27 @@ void Renderer::render(Buffer &buf, const Object &obj, const Camera &cam, const L
     const float off_y = (ly - (max_y - min_y)) * 0.5f - min_y + cam.pan_y;
     const Vec3 offset(off_x, off_y, 0.0f);
 
-    // second pass - draw faces
+    int moved_mat = -1;
+    if (highlight_moved && color_support)
+    {
+        for (size_t i = 0; i < obj.materials.size(); ++i)
+        {
+            if (obj.materials[i].material_name == "moved")
+            {
+                moved_mat = static_cast<int>(i);
+                break;
+            }
+        }
+    }
+
+    const bool use_moved = highlight_moved && moved_mat >= 0 &&
+                           obj.moved_triangle.size() == obj.faces.size();
+
+    size_t face_index = 0;
     for (const auto &face : obj.faces)
     {
+        const size_t fi = face_index++;
+
         const Vec3 &rv1 = rverts[face.indices[0]];
         const Vec3 &rv2 = rverts[face.indices[1]];
         const Vec3 &rv3 = rverts[face.indices[2]];
@@ -67,10 +90,14 @@ void Renderer::render(Buffer &buf, const Object &obj, const Camera &cam, const L
         const Vec3 s2 = sverts[face.indices[1]] + offset;
         const Vec3 s3 = sverts[face.indices[2]] + offset;
 
-        // shading
-        const Vec3 n_light = static_light ? Vec3::cross(obj.vertices[face.indices[1]] - obj.vertices[face.indices[0]], obj.vertices[face.indices[2]] - obj.vertices[face.indices[0]]).normalize() : normal_view;
+        const Vec3 n_light = static_light ? Vec3::cross(obj.vertices[face.indices[1]] - obj.vertices[face.indices[0]],
+                                                        obj.vertices[face.indices[2]] - obj.vertices[face.indices[0]])
+                                                .normalize()
+                                          : normal_view;
         const char lum = luminance_char(n_light, light.direction, CHARS_LUM);
 
-        buf.draw_projection(Projection(s1, s2, s3, lum), lum, (color_support && face.material) ? *face.material : -1);
+        int mat = (color_support && face.material) ? *face.material : -1;
+        if (use_moved && obj.moved_triangle[fi]) mat = moved_mat;
+        buf.draw_projection(Projection(s1, s2, s3, lum), lum, mat);
     }
 }

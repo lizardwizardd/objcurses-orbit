@@ -25,18 +25,27 @@ public:
     float pan_y;
 
     Camera()
-        : right(1, 0, 0), up(0, 1, 0), back(0, 0, 1),
-          zoom(std::clamp(1.0f, ZOOM_MIN, ZOOM_MAX)),
-          pan_x(0.0f), pan_y(0.0f) {}
+        : right(1, 0, 0)
+        , up(0, 1, 0)
+        , back(0, 0, 1)
+        , zoom(std::clamp(1.0F, ZOOM_MIN, ZOOM_MAX))
+        , pan_x(0.0F)
+        , pan_y(0.0F)
+    { }
 
     explicit Camera(float z)
-        : right(1, 0, 0), up(0, 1, 0), back(0, 0, 1),
-          zoom(std::clamp(z, ZOOM_MIN, ZOOM_MAX)),
-          pan_x(0.0f), pan_y(0.0f) {}
+        : right(1, 0, 0)
+        , up(0, 1, 0)
+        , back(0, 0, 1)
+        , zoom(std::clamp(z, ZOOM_MIN, ZOOM_MAX))
+        , pan_x(0.0F)
+        , pan_y(0.0F)
+    { }
 
     Camera(float azimuth, float altitude, float z)
-        : zoom(std::clamp(z, ZOOM_MIN, ZOOM_MAX)),
-          pan_x(0.0f), pan_y(0.0f)
+        : zoom(std::clamp(z, ZOOM_MIN, ZOOM_MAX))
+        , pan_x(0.0F)
+        , pan_y(0.0F)
     {
         set_from_angles(azimuth, altitude);
     }
@@ -45,7 +54,7 @@ public:
     {
         const float ca = std::cos(altitude), sa = std::sin(altitude);
         const float cy = std::cos(azimuth),  sy = std::sin(azimuth);
-        right = Vec3(cy,       0.0f, -sy);
+        right = Vec3(cy, 0.0F, -sy);
         up    = Vec3(sa * sy,  ca,    sa * cy);
         back  = Vec3(ca * sy, -sa,    ca * cy);
     }
@@ -93,7 +102,9 @@ public:
     void zoom_out(float step = ZOOM_STEP) { zoom = std::max(zoom - step, ZOOM_MIN); }
 
     [[nodiscard]] float get_azimuth() const { return std::atan2(back.x, back.z); }
-    [[nodiscard]] float get_altitude() const { return std::asin(std::clamp(-back.y, -1.0f, 1.0f)); }
+    [[nodiscard]] float get_altitude() const {
+        return std::asin(std::clamp(-back.y, -1.0F, 1.0F));
+    }
 
     void orthonormalize()
     {

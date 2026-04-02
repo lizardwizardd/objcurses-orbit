@@ -27,7 +27,7 @@ std::optional<std::vector<size_t>> triangularize(const std::vector<Vec3> &points
 float deg2rad(float degree);
 float rad2deg(float radian);
 
-float clamp0(float value, float eps = 0.05f);
+float clamp0(float value, float eps = 0.05F);
 
 float deg_norm(float degree);
 float rad_norm(float radian);

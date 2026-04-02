@@ -14,7 +14,7 @@
   <img src="resources/images/demo.gif" alt="TUI Demo Gif" width="600">
 </p>
 
-# Features
+#Features
 
 - Render `.obj` files directly in terminal
 - Real-time camera and directional light control
@@ -23,7 +23,7 @@
 - HUD overlay for additional stats
 - Minimal dependencies: C/C++, `ncurses`, math
 
-# Use Cases
+#Use Cases
 
 <p align="center">
   <img src="resources/images/usage.gif" alt="One Use Case" width="800">
@@ -35,7 +35,7 @@
 * Animate coding workspace with rotating retro-style ASCII models
 * Create stylish character-based GIFs from terminal-rendered scenes
 
-# Usage
+#Usage
 
 ```bash
 objcurses [OPTIONS] <file.obj>
@@ -44,7 +44,10 @@ objcurses [OPTIONS] <file.obj>
 ## Options
 
 ```
--c, --color <theme>  Enable colors support, optional theme {dark|light|transparent}
+-c, --color <theme>  Enable colors support, optional theme
+{
+    dark | light | transparent
+}
 -l, --light          Disable light rotation
 -a, --animate <deg>  Start with animated object, optional speed [default: 30.0 deg/s]
 -z, --zoom <x>       Provide initial zoom [default: 1.0 x]
@@ -82,7 +85,7 @@ Tab                Toggle HUD
 q                  Quit
 ```
 
-# Installation
+#Installation
 
 Latest release available [here](https://github.com/admtrv/objcurses/releases). Replace `<version>` with the actual release version, e.g. `1.2.3`.
 
